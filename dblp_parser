@@ -183,7 +183,7 @@ for children in root:
     Some of these grandchildren's value may be NULL
     '''
     for grand_children in children:
-        if(grand_children.tag == 'author'):
+        if (grand_children.tag == 'author'):
             '''
             Intializing time marker for checking author data in the database.
             '''
@@ -211,8 +211,233 @@ for children in root:
             If the author has not yet exist in the database then we add the new author to the database
             Else we print out a notification which says that the author already existed in the database and we ignore it.
             '''
+            if (cur.fetchone() is None):
+                print('Inserting ' + str(key) + ', ' + str(grand_children.text) + ' into AUTHOR table in database')
+
+                '''
+                Initializing time marker for author data insertion
+                '''
+                author_start = time.time()
+
+                '''
+                Inserting new author to the database
+                '''
+                query = "INSERT INTO author(key,author) VALUES (%s, %s)"
+                cur.execute(query, (str(key), str(grand_children.text)))
+                conn.commit()
+
+                '''
+                Ending time marker for author data insertion
+                '''
+                author_end = time.time()
+
+                print(str(key) + ', ' + str(grand_children.text) + ' has been inserted within ' + elapsed_time(
+                    author_start, author_end))
+            else:
+                print('Author data: ' + str(key) + ', ' + str(grand_children.text) + ' already existed in the database')
+
+        elif (grand_children.tag == 'editor'):
+            '''
+            Initializing time marker for checking editor data in the database.
+            '''
+            check_editor_start = time.time()
+
+            print('Checking existing editor data...')
+
+            '''
+            Querying data in the database.
+            Input: key from the children's attribute
+                   editor from the value of the grand children's tag
+            '''
+            query = 'SELECT key, editor FROM editor WHERE key = %s AND editor = %s'
+            cur.execute(query, (str(key), str(grand_children.text)))
+
+            '''
+            Ending time marker for checking editor data in the database.
+            '''
+            check_editor_end = time.time()
+
+            print('Checked within ' + elapsed_time(check_editor_start, check_editor_end))
+
+            '''
+            Check the query result.
+            If the editor has not yet exist in the database then we add the new editor to the database
+            Else we print out a notification which says that the editor already existed in the database and we ignore it.
+            '''
+            if (cur.fetchone() is None):
+                print('Inserting ' + str(key) + ', ' + str(grand_children.text) + ' into EDITOR table in database')
+
+                '''
+                Initializing time marker for editor data insertion
+                '''
+                editor_start = time.time()
+
+                '''
+                Inserting new editor to the database
+                '''
+                query = 'INSERT INTO editor(key, editor) VALUES (%s, %s)'
+                cur.execute(query, (str(key), str(grand_children.text)))
+                conn.commit()
+
+                '''
+                Ending time marker for editor data insertion
+                '''
+                editor_end = time.time()
+
+                print(str(key) + ', ' + str(grand_children.text) + ' has been inserted within ' + elapsed_time(editor_start, editor_end))
+            else:
+                print('Editor data: ' str(key) + ', ' + str(grand_children.text) + ' already existed in database')
 
 
+        elif (grand_children.tag == 'title'):
+            title = str(grand_children.text)
+
+        elif (grand_children.tag == 'booktitle'):
+            booktitle = str(grand_children.text)
+
+        elif (grand_children.tag == 'pages'):
+            pages = str(grand_children.text)
+
+        elif (grand_children.tag == 'year'):
+            year = str(grand_children.text)
+
+        elif (grand_children.tag == 'address'):
+            address = str(grand_children.text)
+
+        elif (grand_children.tag == 'journal'):
+            journal = str(grand_children.text)
+
+        elif (grand_children.tag == 'volume'):
+            volume = str(grand_children.text)
+
+        elif (grand_children.tag == 'number'):
+            number = str(grand_children.text)
+
+        elif (grand_children.tag == 'month'):
+            month = str(grand_children.text)
+
+        elif (grand_children.tag == 'url'):
+            url = str(grand_children.text)
+
+        elif (grand_children.tag == 'ee'):
+            '''
+            Initializing time marker for checking ee data in the database
+            '''
+            check_ee_start = time.time()
+
+            print('Checking existing ee data...')
+
+            '''
+            Querying data in the database.
+            Input: key from the children's attribute
+                   ee from the value of the grand children's tag
+            '''
+            query = 'SELECT key, ee FROM ee WHERE key = %s AND ee = %s'
+            cur.exeucte(query, (str(key), str(grand_children.text)))
+
+            '''
+            Ending time marker for checking ee data in the database
+            '''
+            check_ee_end = time.time()
+
+            print('Checked within ' + elapsed_time(check_ee_start, check_ee_end))
+
+            '''
+            Check the query result.
+            If the ee has not yet exist in the database then we add the new ee to the database
+            Else we print out a notification which says that the ee already existed in the database and we ignore it.
+            '''
+            if (cur.fetchone() is None):
+                print('Inserting ' + str(key) + str(grand_children.text) + ' into EE table in database')
+
+                '''
+                Initializing time marker for ee data insertion
+                '''
+                ee_start = time.time()
+
+                '''
+                Inserting new ee into the database
+                '''
+                query = "INSERT INTO ee(key, ee) VALUES (%s, %s)"
+                cur.execute(query, (str(key), str(grand_children.text)))
+                conn.commit()
+
+                '''
+                Ending time marker for ee data insertion
+                '''
+                ee_end = time.time()
+
+                print(str(key) + ', ' + str(grand_children.text) + ' has been inserted within ' + elapsed_time(ee_start, ee_end))
+            else:
+                print('Ee data: ' + str(key) + ', ' + str(grand_children.text) + ' already existed in database')
+
+        if (grand_children.tag == 'cdrom'):
+            cdrom = str(grand_children.text)
+        if (grand_children.tag == 'cite'):
+            '''
+            Initializing time marker for checking cite data in the database
+            '''
+            check_cite_start = time.time()
+
+            print('Checking existing cite data...')
+
+            '''
+            Querying data in the database.
+            Input: key from the children's attribute
+                   cite from the value of the grand children's tag
+            '''
+            query = "SELECT key, cite FROM cite WHERE key = %s AND cite = %s"
+            cur.execute(query, (str(key), str(grand_children.text)))
+
+            '''
+            Ending time marker for checking cite data in the database
+            '''
+            check_cite_end = time.time()
+
+            print('Checked within ' + elapsed_time(check_cite_start, check_cite_end))
+
+            '''
+            Check the query result.
+            If the cite has not yet exist in the database then we add the new cite to the database
+            Else we print out a notification which says that the cite already existed in the database and we ignore it.
+            '''
+            if (cur.fetchone() is None):
+                print('Inserting ' + str(key) + str(grand_children.text) + ' into CITE table in DBLP database')
+
+                '''
+                Initializing time marker for cite data insertion
+                '''
+                cite_start = time.time()
+
+                '''
+                Inserting new cite data
+                '''
+                query = "INSERT INTO cite(key, cite) VALUES (%s, %s)"
+                cur.execute(query, (str(key), str(grand_children.text)))
+                conn.commit()
+
+                '''
+                Ending time marker for cite data insertion
+                '''
+                cite_end = time.time()
+                print(str(key) + ', ' + str(grand_children.text) + ' has been inserted within ' + elapsed_time(cite_start, cite_end))
+            else:
+                print('Cite data: ' + str(key) + ', ' + str(grand_children.text) + ' already existed in database')
+
+        elif (grand_children.tag == 'publisher'):
+            publisher = str(grand_children.text)
+        elif (grand_children.tag == 'note'):
+            note = str(grand_children.text)
+        elif (grand_children.tag == 'crossref'):
+            crossref = str(grand_children.text)
+        elif (grand_children.tag == 'isbn'):
+            isbn = str(grand_children.text)
+        elif (grand_children.tag == 'series'):
+            series = str(grand_children.text)
+        elif (grand_children.tag == 'school'):
+            school = str(grand_children.text)
+        elif (grand_children.tag == 'chapter'):
+            chapter = str(grand_children.text)
 
 '''
 Ending time and date marker for iterating the root's childres
