@@ -101,6 +101,118 @@ print(str(iteration_start_date) + ': Start the migration process...')
 Iterating root's children.
 The children composed of article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www
 '''
+for children in root:
+    '''
+    Initializing child's attributes.
+    IMPORTANT: not all children have these attributes but we initialized them anyway so their are there when they are
+    needed.
+    '''
+    key = None
+    mdate = None
+    publtype = None
+    reviewid = None
+    rating = None
+
+    '''
+    Initializing child's sub-elements.
+    Some sub-elements are initialized as empty lists due to the nature of the data of those sub-elements
+    '''
+    editor = None
+    title = None
+    booktitle = None
+    pages = None
+    year = None
+    address = None
+    journal = None
+    volume = None
+    number = None
+    month = None
+    url = None
+    cdrom = None
+    publisher = None
+    note = None
+    crossref = None
+    isbn = None
+    series = None
+    school = None
+    chapter = None
+    author = []
+    cite = []
+    ee = []
+
+    '''
+    Iterating through the child's attribute for assigning the attribute value to a variable
+    '''
+    for attribute_name, attribute_value in children.items():
+        if(attribute_name == 'key'):
+            key = attribute_value
+        if(attribute_name == 'mdate'):
+            mdate = attribute_value
+        if(attribute_name == 'publtype'):
+            publtype = attribute_value
+        if(attribute_name == 'reviewid'):
+            reviewid = attribute_value
+        if(attribute_name == 'rating'):
+            rating = attribute_value
+
+    '''
+    Retrieving DBLP data value through iterating the root's grandchildren
+    The following are the root's children:
+    - author
+    - editor
+    - title
+    - booktitle
+    - pages
+    - year
+    - address
+    - journal
+    - volume
+    - number
+    - month
+    - url
+    - ee
+    - cdrom
+    - cite
+    - publisher
+    - note
+    - crossref
+    - isbn
+    - series
+    - school
+    - chapter
+    Some of these grandchildren's value may be NULL
+    '''
+    for grand_children in children:
+        if(grand_children.tag == 'author'):
+            '''
+            Intializing time marker for checking author data in the database.
+            '''
+            check_author_start = time.time()
+
+            print('Checking the existence of author data in the database...')
+
+            '''
+            Querying data in the database.
+            Input: key from the children's attribute
+                   author from the value of the grand children's tag
+            '''
+            query = 'SELECT key, author FROM author WHERE key = %s AND author = %s'
+            cur.execute(query, (str(key), str(grand_children.text)))
+
+            '''
+            Ending time marker for checking author data in the database.
+            '''
+            check_author_end = time.time()
+
+            print('Checked within ' + elapsed_time(check_author_start, check_author_end))
+
+            '''
+            Check the query result.
+            If the author has not yet exist in the database then we add the new author to the database
+            Else we print out a notification which says that the author already existed in the database and we ignore it.
+            '''
+
+
 
 '''
 Ending time and date marker for iterating the root's childres
