@@ -57,7 +57,7 @@ Ending time and date markers for parsing the XML file
 '''
 parse_end_time = time.time()
 parsed_end_date = datetime.datetime.now()
-print('Parsed within ' + elapsed_time(parse_start_time, parse_end_time) + ' ended on ' + str(parsed_end_date))
+print('Parsed within ' + elapsed_time(parse_start_time, parse_end_time) + ' and ended on ' + str(parsed_end_date))
 
 '''
 Getting the root of the DBLP XML file
@@ -95,10 +95,16 @@ Initializing time and date marker for iterating the root's children
 '''
 iteration_start_time = time.time()
 iteration_start_date = datetime.datetime.now()
-
-
+print(str(iteration_start_date) + ': Start the migration process...')
 
 '''
 Iterating root's children.
 The children composed of article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www
 '''
+
+'''
+Ending time and date marker for iterating the root's childres
+'''
+iteration_end_time = time.time()
+iteration_end_date = datetime.datetime.now()
+print('The migration process finished within ' + elapsed_time(iteration_start_time, iteration_end_time) + ' and ended on ' + str(iteration_end_date))
