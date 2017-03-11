@@ -50,7 +50,7 @@ print(str(parse_start_at) + ': Start to parse the xml data...')
 '''
 Parsing the DBLP XML file
 '''
-doc = etree.parse(full_location, parser)
+doc = etree.parse(file_location, parser)
 
 '''
 Ending time and date markers for parsing the XML file
