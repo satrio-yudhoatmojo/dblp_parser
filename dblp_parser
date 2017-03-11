@@ -44,8 +44,8 @@ parser = etree.XMLParser(dtd_validation=True)
 Initializing time and date markers for parsing the XML file
 '''
 parse_start_time = time.time()
-parse_start_at = datetime.datetime.now()
-print(str(parse_start_at) + ': Start to parse the xml data...')
+parse_start_date = datetime.datetime.now()
+print(str(parse_start_date) + ': Start to parse the xml data...')
 
 '''
 Parsing the DBLP XML file
@@ -56,5 +56,49 @@ doc = etree.parse(file_location, parser)
 Ending time and date markers for parsing the XML file
 '''
 parse_end_time = time.time()
-parsed_end_at = datetime.datetime.now()
-print('Parsed within ' + elapsed_time(parse_start_time, parse_end_time) + ' ended on ' + str(parsed_end_at))
+parsed_end_date = datetime.datetime.now()
+print('Parsed within ' + elapsed_time(parse_start_time, parse_end_time) + ' ended on ' + str(parsed_end_date))
+
+'''
+Getting the root of the DBLP XML file
+'''
+root = doc.getroot()
+
+'''
+Initializing the required counter for collecting data migration statistics
+'''
+article_counter = 0
+inproceedings_counter = 0
+proceedings_counter = 0
+book_counter = 0
+incollection_counter = 0
+phdthesis_counter = 0
+mastersthesis_counter = 0
+www_counter = 0
+
+'''
+Establishing connection to PostgreSQL RDBMS.
+In this program, I use PostgreSQL DBMS to store the DBLP data.
+The name of the database is "dblp".
+The database user that I use in this progam is named "satrio".
+At this program, I do not use any password to access the database.
+I use psycopg2 python library as the PostgreSQL adapter.
+
+The syntax for establishing connection:
+conn = psycopg2.connect("dbname=database-name user=database-username password=user-password-if-any")
+'''
+conn = psycopg2.connect("dbname=dblp user=satrio")
+cur = conn.cursor()
+
+'''
+Initializing time and date marker for iterating the root's children
+'''
+iteration_start_time = time.time()
+iteration_start_date = datetime.datetime.now()
+
+
+
+'''
+Iterating root's children.
+The children composed of article|inproceedings|proceedings|book|incollection|phdthesis|mastersthesis|www
+'''
