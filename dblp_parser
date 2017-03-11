@@ -1,0 +1,60 @@
+import os
+import time
+import datetime
+from lxml import etree
+import psycopg2
+
+'''
+Function for calculating the elapsed time of an action
+
+Input:  start time type time
+        end time type time
+
+Output: elapsed time in seconds
+'''
+def elapsed_time(start, end):
+    elapsed = round(((end - start) % 60), 2)
+
+    return (str(elapsed) + 'seconds')
+
+'''
+Variable for DBLP file
+
+Input: a file in XML format
+
+Source file location: http://dblp.uni-trier.de/xml/
+
+File version date: 11 March 2017
+'''
+dblp_xml_file_name = 'dblp-2017-03-03.xml'
+
+'''
+Variable for the location of DBLP file.
+In our program, we have a directory named 'data'.  Inside this directory, there are two files:
+(1) dblp.dtd and (2) dblp.xml.  The (1) is the data definition for the xml and the (2) is the dblp data.
+'''
+file_location = os.path.abspath(os.path.join('data', dblp_xml_file_name))
+
+'''
+Variable for the DBLP XML file using its DTD file.
+'''
+parser = etree.XMLParser(dtd_validation=True)
+
+'''
+Initializing time and date markers for parsing the XML file
+'''
+parse_start_time = time.time()
+parse_start_at = datetime.datetime.now()
+print(str(parse_start_at) + ': Start to parse the xml data...')
+
+'''
+Parsing the DBLP XML file
+'''
+doc = etree.parse(full_location, parser)
+
+'''
+Ending time and date markers for parsing the XML file
+'''
+parse_end_time = time.time()
+parsed_end_at = datetime.datetime.now()
+print('Parsed within ' + elapsed_time(parse_start_time, parse_end_time) + ' ended on ' + str(parsed_end_at))
