@@ -572,7 +572,7 @@ for children in root:
                 print('Number of inproceedings added: ' + str(inproceedings_counter))
             else:
                 print('This inproceedings ' + str(key) + ', ' + str(title) + ' has already existed in the database')
-                print('Number of inproceedings added: ' + str(article_counter))
+                print('Number of inproceedings added: ' + str(inproceedings_counter))
 
         elif (children.tag == 'proceedings'):
             '''
@@ -580,7 +580,7 @@ for children in root:
             '''
             check_proceedings_start = time.time()
 
-            print('Checking for an exising proceedings with this key: ' + str(key))
+            print('Checking for an existing proceedings with this key: ' + str(key))
 
             '''
             Querying proceedings in the database
@@ -632,9 +632,308 @@ for children in root:
 
             else:
                 print('This proceedings ' + str(key) + ', ' + str(title) + ' has already existed in the database')
-                print('Number of proceedings added: ' + str(article_counter))
+                print('Number of proceedings added: ' + str(proceedings_counter))
 
-        elif ():
+        elif (children.tag == 'book'):
+            '''
+            Initializing time marker for checking book in the database
+            '''
+            check_book_start = time.time()
+
+            print('Checking for an existing book with this key: ' + str(key))
+
+            '''
+            Querying book in the database
+            '''
+            query = """SELECT * FROM book WHERE key = %s"""
+            cur.execute(query, (str(key)))
+
+            '''
+            Ending time marker for checking book in the database
+            '''
+            check_book_end = time.time()
+
+            print('Checked within ' + elapsed_time(check_book_start, check_book_end))
+
+            '''
+            Check the query result.
+            If the proceedings has not yet exist in the database then we add the new proceedings to the database.
+            Else we print out a notification which says that the proceedings already existed in the database and we ignore it.
+            '''
+            if (cur.fetchone() is None):
+                '''
+                Updating the counter for the number of book iterated in the data set.
+                '''
+                book_counter += 1
+
+                print('Inserting ' + str(children.tag) + ' data No.: ' + str(book_counter))
+
+                '''
+                Initializing time marker for book data insertion.
+                '''
+                book_start = time.time()
+
+                '''
+                Inserting new books into the database.
+                '''
+                query = """INSERT INTO book(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                cur.execute(query, (key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                conn.commit()
+
+                '''
+                Ending time marker for book data insertion.
+                '''
+                book_end = time.time()
+
+                print('A book has been inserted to the database within ' + elapsed_time(book_start, book_end))
+                print('Number of books added: ' + str(book_counter))
+
+            else:
+                print('This book ' + str(key) + ', ' + str(title) + ' has already existed in the database')
+                print('Number of book added: ' + str(book_counter))
+
+        elif (children.tag == 'incollection'):
+            '''
+            Initializing time marker for checking incollection in the database
+            '''
+            check_incollection_start = time.time()
+
+            print('Checking for an existing incollection with this key: ' + str(key))
+
+            '''
+            Querying incollection in the database
+            '''
+            query = """SELECT * FROM incollection WHERE key = %s"""
+            cur.execute(query, (str(key)))
+
+            '''
+            Ending time marker for checking incollection in the database
+            '''
+            check_incollection_end = time.time()
+
+            print('Checked within ' + elapsed_time(check_incollection_start, check_incollection_end))
+
+            '''
+            Check the query result.
+            If the incollection has not yet exist in the database then we add the new incollection to the database.
+            Else we print out a notification which says that the incollection already existed in the database and we ignore it.
+            '''
+            if (cur.fetchone() is None):
+                '''
+                Updating the counter for the number of incollection iterated in the data set.
+                '''
+                incollection_counter += 1
+
+                print('Inserting ' + str(children.tag) + ' data No.: ' + str(incollection_counter))
+
+                '''
+                Initializing time marker for incollection data insertion.
+                '''
+                incollection_start = time.time()
+
+                '''
+                Inserting new incollection into the database.
+                '''
+                query = """INSERT INTO incollection(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                cur.execute(query, (
+                key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                conn.commit()
+
+                '''
+                Ending time marker for incollection data insertion.
+                '''
+                incollection_end = time.time()
+
+                print('An incollection has been inserted to the database within ' + elapsed_time(incollection_start,
+                                                                                                 incollection_end))
+                print('Number of incollections added: ' + str(incollection_counter))
+
+            else:
+                print('This incollection ' + str(key) + ', ' + str(title) + ' has already existed in the database')
+                print('Number of incollection added: ' + str(incollection_counter))
+
+        elif (children.tag == 'phdthesis'):
+            '''
+            Initializing time marker for checking phdthesis in the database
+            '''
+            check_phdthesis_start = time.time()
+
+            print('Checking for an existing phdthesis with this key: ' + str(key))
+
+            '''
+            Querying phdthesis in the database
+            '''
+            query = """SELECT * FROM phdthesis WHERE key = %s"""
+            cur.execute(query, (str(key)))
+
+            '''
+            Ending time marker for checking phdthesis in the database
+            '''
+            check_phdthesis_end = time.time()
+
+            print('Checked within ' + elapsed_time(check_phdthesis_start, check_phdthesis_end))
+
+            '''
+            Check the query result.
+            If the phdthesis has not yet exist in the database then we add the new phdthesis to the database.
+            Else we print out a notification which says that the phdthesis already existed in the database and we ignore it.
+            '''
+            if (cur.fetchone() is None):
+                '''
+                Updating the counter for the number of phdthesis iterated in the data set.
+                '''
+                phdthesis_counter += 1
+
+                print('Inserting ' + str(children.tag) + ' data No.: ' + str(phdthesis_counter))
+
+                '''
+                Initializing time marker for phdthesis data insertion.
+                '''
+                phdthesis_start = time.time()
+
+                '''
+                Inserting new phdthesis into the database.
+                '''
+                query = """INSERT INTO phdthesis(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                cur.execute(query, (
+                key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                conn.commit()
+
+                '''
+                Ending time marker for phdthesis data insertion.
+                '''
+                phdthesis_end = time.time()
+
+                print('An phdthesis has been inserted to the database within ' + elapsed_time(phdthesis_start,
+                                                                                                 phdthesis_end))
+                print('Number of phdthesis added: ' + str(phdthesis_counter))
+
+            else:
+                print('This phdthesis ' + str(key) + ', ' + str(title) + ' has already existed in the database')
+                print('Number of phdthesis added: ' + str(phdthesis_counter))
+
+        elif (children.tag == 'mastersthesis'):
+            '''
+            Initializing time marker for checking mastersthesis in the database
+            '''
+            check_mastersthesis_start = time.time()
+
+            print('Checking for an existing mastersthesis with this key: ' + str(key))
+
+            '''
+            Querying mastersthesis in the database
+            '''
+            query = """SELECT * FROM mastersthesis WHERE key = %s"""
+            cur.execute(query, (str(key)))
+
+            '''
+            Ending time marker for checking mastersthesis in the database
+            '''
+            check_mastersthesis_end = time.time()
+
+            print('Checked within ' + elapsed_time(check_mastersthesis_start, check_mastersthesis_end))
+
+            '''
+            Check the query result.
+            If the mastersthesis has not yet exist in the database then we add the new masterthesis to the database.
+            Else we print out a notification which says that the mastersthesis already existed in the database and we ignore it.
+            '''
+            if (cur.fetchone() is None):
+                '''
+                Updating the counter for the number of mastersthesis iterated in the data set.
+                '''
+                mastersthesis_counter += 1
+
+                print('Inserting ' + str(children.tag) + ' data No.: ' + str(mastersthesis_counter))
+
+                '''
+                Initializing time marker for mastersthesis data insertion.
+                '''
+                mastersthesis_start = time.time()
+
+                '''
+                Inserting new mastersthesis into the database.
+                '''
+                query = """INSERT INTO mastersthesis(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                cur.execute(query, (
+                key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                conn.commit()
+
+                '''
+                Ending time marker for mastersthesis data insertion.
+                '''
+                mastersthesis_end = time.time()
+
+                print('An mastersthesis has been inserted to the database within ' + elapsed_time(mastersthesis_start,
+                                                                                              mastersthesis_end))
+                print('Number of mastersthesis added: ' + str(mastersthesis_counter))
+
+            else:
+                print('This mastersthesis ' + str(key) + ', ' + str(title) + ' has already existed in the database')
+                print('Number of mastersthesis added: ' + str(mastersthesis_counter))
+
+        elif (children.tag == 'www'):
+            '''
+            Initializing time marker for checking www in the database
+            '''
+            check_www_start = time.time()
+
+            print('Checking for an existing www with this key: ' + str(key))
+
+            '''
+            Querying www in the database
+            '''
+            query = """SELECT * FROM www WHERE key = %s"""
+            cur.execute(query, (str(key)))
+
+            '''
+            Ending time marker for checking www in the database
+            '''
+            check_www_end = time.time()
+
+            print('Checked within ' + elapsed_time(check_www_start, check_www_end))
+
+            '''
+            Check the query result.
+            If the www has not yet exist in the database then we add the new www to the database.
+            Else we print out a notification which says that the www already existed in the database and we ignore it.
+            '''
+            if (cur.fetchone() is None):
+                '''
+                Updating the counter for the number of www iterated in the data set.
+                '''
+                www_counter += 1
+
+                print('Inserting ' + str(children.tag) + ' data No.: ' + str(www_counter))
+
+                '''
+                Initializing time marker for www data insertion.
+                '''
+                www_start = time.time()
+
+                '''
+                Inserting new www into the database.
+                '''
+                query = """INSERT INTO www(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                cur.execute(query, (
+                key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                conn.commit()
+
+                '''
+                Ending time marker for www data insertion.
+                '''
+                www_end = time.time()
+
+                print('An www has been inserted to the database within ' + elapsed_time(www_start, www_end))
+                print('Number of www added: ' + str(www_counter))
+
+            else:
+                print('This www ' + str(key) + ', ' + str(title) + ' has already existed in the database')
+                print('Number of www added: ' + str(www_counter))
 
     finally:
         cur.close()
@@ -646,3 +945,15 @@ Ending time and date marker for iterating the root's childres
 iteration_end_time = time.time()
 iteration_end_date = datetime.datetime.now()
 print('The migration process finished within ' + elapsed_time(iteration_start_time, iteration_end_time) + ' and ended on ' + str(iteration_end_date))
+
+print('Parsing and Migration Process Has Ended.')
+print(('Job started on %s-%s-%s at %s:%s:%s and ended on %s-%s-%s at %s:%s:%s') % (str(start_at.day), str(start_at.month), str(start_at.year), str(start_at.hour), str(start_at.minute), str(start_at.second), str(finished_at.day), str(finished_at.month), str(finished_at.year), str(finished_at.hour), str(finished_at.minute), str(finished_at.second)))
+print(('Job duration: %s') % (str(duration)))
+print(('Number of Articles: %s records') % (str(article_counter)))
+print(('Number of Inproceedings: %s records') % (str(inproceedings_counter)))
+print(('Number of Proceedings: %s records') % (str(proceedings_counter)))
+print(('Number of Books: %s records') % (str(book_counter)))
+print(('Number of Incollections: %s records') % (str(incollection_counter)))
+print(('Number of Phd Thesis: %s records') % (str(phdthesis_counter)))
+print(('Number of Masters Thesis: %s records') % (str(mastersthesis_counter)))
+print(('Number of WWW: %s records') % (str(www_counter)))
