@@ -197,7 +197,8 @@ for children in root:
                    author from the value of the grand children's tag
             '''
             query = 'SELECT key, author FROM author WHERE key = %s AND author = %s'
-            cur.execute(query, (str(key), str(grand_children.text)))
+            data = (key, grand_children.text,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking author data in the database.
@@ -223,7 +224,8 @@ for children in root:
                 Inserting new author to the database
                 '''
                 query = "INSERT INTO author(key,author) VALUES (%s, %s)"
-                cur.execute(query, (str(key), str(grand_children.text)))
+                data = (key, grand_children.text,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -250,7 +252,8 @@ for children in root:
                    editor from the value of the grand children's tag
             '''
             query = 'SELECT key, editor FROM editor WHERE key = %s AND editor = %s'
-            cur.execute(query, (str(key), str(grand_children.text)))
+            data = (key, grand_children.text,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking editor data in the database.
@@ -276,7 +279,8 @@ for children in root:
                 Inserting new editor to the database
                 '''
                 query = 'INSERT INTO editor(key, editor) VALUES (%s, %s)'
-                cur.execute(query, (str(key), str(grand_children.text)))
+                data = (key, grand_children.text,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -333,7 +337,8 @@ for children in root:
                    ee from the value of the grand children's tag
             '''
             query = 'SELECT key, ee FROM ee WHERE key = %s AND ee = %s'
-            cur.exeucte(query, (str(key), str(grand_children.text)))
+            data = (key, grand_children.text,)
+            cur.exeucte(query, data)
 
             '''
             Ending time marker for checking ee data in the database
@@ -359,7 +364,8 @@ for children in root:
                 Inserting new ee into the database
                 '''
                 query = "INSERT INTO ee(key, ee) VALUES (%s, %s)"
-                cur.execute(query, (str(key), str(grand_children.text)))
+                data = (key, grand_children.text,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -387,7 +393,8 @@ for children in root:
                    cite from the value of the grand children's tag
             '''
             query = "SELECT key, cite FROM cite WHERE key = %s AND cite = %s"
-            cur.execute(query, (str(key), str(grand_children.text)))
+            data = (key, grand_children.text,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking cite data in the database
@@ -413,7 +420,8 @@ for children in root:
                 Inserting new cite data
                 '''
                 query = "INSERT INTO cite(key, cite) VALUES (%s, %s)"
-                cur.execute(query, (str(key), str(grand_children.text)))
+                data = (key, grand_children.text,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -467,7 +475,8 @@ for children in root:
             Querying article in the database
             '''
             query = """SELECT * FROM article WHERE key = %s"""
-            cur.execute(query, (str(key)))
+            data = (key,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking article data in the database
@@ -498,9 +507,10 @@ for children in root:
                 Inserting new article into the database
                 '''
                 query = """INSERT INTO article(key, mdate, publtype, reviewid, rating, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-                cur.execute(query, (
+                data = (
                 key, mdate, publtype, reviewid, rating, author, editor, title, booktitle, pages, year, address, journal,
-                volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter,)
+                cur.execute(query, data )
                 conn.commit()
 
                 '''
@@ -526,7 +536,8 @@ for children in root:
             Querying inproceedings in the database
             '''
             query = """SELECT * FROM inproceedings WHERE key = %s"""
-            cur.execute(query, (str(key)))
+            data = (key,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking inproceedings data in the database
@@ -557,9 +568,10 @@ for children in root:
                 Inserting new inproceedings into the database
                 '''
                 query = """INSERT INTO inproceedings(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-                cur.execute(query, (
+                data = (
                 key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
-                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -586,7 +598,8 @@ for children in root:
             Querying proceedings in the database
             '''
             query = """SELECT * FROM proceedings WHERE key = %s"""
-            cur.execute(query, (str(key)))
+            data = (key,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking proceeding data in the database
@@ -617,9 +630,10 @@ for children in root:
                 Inserting new proceedings into database
                 '''
                 query = """INSERT INTO proceedings(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-                cur.execute(query, (
+                data = (
                 key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
-                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -646,7 +660,8 @@ for children in root:
             Querying book in the database
             '''
             query = """SELECT * FROM book WHERE key = %s"""
-            cur.execute(query, (str(key)))
+            data = (key,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking book in the database
@@ -677,7 +692,8 @@ for children in root:
                 Inserting new books into the database.
                 '''
                 query = """INSERT INTO book(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-                cur.execute(query, (key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                data = (key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -704,7 +720,8 @@ for children in root:
             Querying incollection in the database
             '''
             query = """SELECT * FROM incollection WHERE key = %s"""
-            cur.execute(query, (str(key)))
+            data = (key,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking incollection in the database
@@ -735,9 +752,10 @@ for children in root:
                 Inserting new incollection into the database.
                 '''
                 query = """INSERT INTO incollection(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-                cur.execute(query, (
+                data = (
                 key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
-                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -765,7 +783,8 @@ for children in root:
             Querying phdthesis in the database
             '''
             query = """SELECT * FROM phdthesis WHERE key = %s"""
-            cur.execute(query, (str(key)))
+            data = (key,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking phdthesis in the database
@@ -796,9 +815,10 @@ for children in root:
                 Inserting new phdthesis into the database.
                 '''
                 query = """INSERT INTO phdthesis(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-                cur.execute(query, (
+                data = (
                 key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
-                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -826,7 +846,8 @@ for children in root:
             Querying mastersthesis in the database
             '''
             query = """SELECT * FROM mastersthesis WHERE key = %s"""
-            cur.execute(query, (str(key)))
+            data = (key,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking mastersthesis in the database
@@ -857,9 +878,10 @@ for children in root:
                 Inserting new mastersthesis into the database.
                 '''
                 query = """INSERT INTO mastersthesis(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-                cur.execute(query, (
+                data = (
                 key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
-                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
@@ -887,7 +909,8 @@ for children in root:
             Querying www in the database
             '''
             query = """SELECT * FROM www WHERE key = %s"""
-            cur.execute(query, (str(key)))
+            data = (key,)
+            cur.execute(query, data)
 
             '''
             Ending time marker for checking www in the database
@@ -918,9 +941,10 @@ for children in root:
                 Inserting new www into the database.
                 '''
                 query = """INSERT INTO www(key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number, month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-                cur.execute(query, (
+                data = (
                 key, mdate, publtype, author, editor, title, booktitle, pages, year, address, journal, volume, number,
-                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter))
+                month, url, ee, cdrom, cite, publisher, note, crossref, isbn, series, school, chapter,)
+                cur.execute(query, data)
                 conn.commit()
 
                 '''
